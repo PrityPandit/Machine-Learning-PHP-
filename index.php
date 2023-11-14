@@ -78,15 +78,17 @@ body{
     </div>
     <div class="content">
         <div class="card-grid">
+            <a href="insertData.php" target="_blank"><button class="button"><span>Insert Data</span></button></a>
              <div class="card">
                 <p class="card-title"><i class="fas fa-thermometer-threequarters" style="color:#059e8a;"></i> Temperature</p>
-                <p class="reading"><span id="temperature"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &deg;C</p>
+                <p class="reading"><span id="temperature"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &deg;C</p>
              </div>
              <div class="card">
                     <p class="card-title"> Humidity</p>
                     <p class="reading"><span id="humidity"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &percnt;</p>
              </div>
              <br><br>
+
      <a href="showdata.php" target="_blank"><button class="button"><span>Table</span></button></a>
      <div id="loader" class="center"></div>
     <script src="script.js"></script>
