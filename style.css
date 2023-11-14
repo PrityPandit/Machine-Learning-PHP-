@@ -1,0 +1,277 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700&display=swap');
+html {
+    font-family: Arial, Helvetica;
+    display: inline-block;
+    text-align: center;
+}
+.topnav {
+    overflow: hidden;
+    background-color: #0A1128;
+}
+
+body{
+    margin: 0;
+    font-family: 'Raleway', sans-serif;  
+}
+.content {
+    padding: 50px;
+}
+.card-grid {
+    max-width: 800px;
+    margin: 0 auto;
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+.card {
+    background-color: white;
+    box-shadow: 2px 2px 12px 1px rgba(140,140,140,.5);
+}
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #034078
+}
+.reading {
+    font-size: 1.2rem;
+    color: #1282A2;
+}
+.button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .button:hover span {
+    padding-right: 25px;
+  }
+  
+  .button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+
+
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Precision Agriculture</title>
+     <!-- link with CSS-->
+     <!--<link rel="stylesheet"> <a href="css/style.css"></a>-->
+     <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700&display=swap');
+html {
+    font-family: Arial, Helvetica;
+    display: inline-block;
+    text-align: center;
+}
+.topnav {
+    overflow: hidden;
+    background-color: yellow;
+}
+
+body{
+    margin: 0;
+    font-family: 'Raleway', sans-serif;  
+}
+.content {
+    padding: 50px;
+}
+.card-grid {
+    max-width: 800px;
+    margin: 0 auto;
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+.card {
+    background-color: white;
+    box-shadow: 2px 2px 12px 1px rgba(140,140,140,.5);
+}
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #034078
+}
+.reading {
+    font-size: 1.2rem;
+    color: #1282A2;
+}
+.button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .button:hover span {
+    padding-right: 25px;
+  }
+  
+  .button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+        </style>
+</head>
+<body>
+
+    <div class="topnav">
+        <h1>Monitoring Precision Agriculture</h1>
+    </div>
+    <div class="content">
+        <div class="card-grid">
+             <div class="card">
+                <p class="card-title"><i class="fas fa-thermometer-threequarters" style="color:#059e8a;"></i> Temperature</p>
+                <p class="reading"><span id="temperature"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &deg;C</p>
+             </div>
+             <div class="card">
+                    <p class="card-title"> Humidity</p>
+                    <p class="reading"><span id="humidity"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &percnt;</p>
+             </div>
+             <br><br>
+     <a href="showdata.php" target="_blank"><button class="button"><span>Table</span></button></a>
+     <a href="showdata.php" target="_blank"><button class="button"><span>Graph</span></button></a>
+ </div>  
+</div>
+<div id="loader" class="center"></div>
+    <script src="script.js"></script>
+ 
+</body>
+</html>;
+    }
+
+
+
+    <?php
+
+$hostname = "localhost" ;
+$username  = "root" ;
+$password  = "YES" ;
+$database   = "data-Copy.sql" ;
+$conn = mysqli_connect($hostname, $username, $password, $database);
+
+if (!$conn) 
+{ 
+	die("Connection failed: " . mysqli_connect_error()); 
+} 
+
+echo "Database connection is OK <br>"; 
+$sql = "SELECT ID,Temperature,Humidity ,Date/time FROM data-Copy";
+    //fire query
+    $result = mysqli_query($con, $sql);
+    if(mysqli_num_rows($result) > 0)
+    {
+       echo '<table> <tr> <th> ID </th> <th> Temperature </th> <th> Humidity </th> <th> Date/time </th> </tr>';
+       while($row = mysqli_fetch_assoc($result)){
+        $deg= $row["Temperature"];
+        $percnt= $row["Humidity"];
+       }
+       echo "
+       <!DOCTYPE html>
+       <html lang=\"en\" >
+       <head>
+           <meta charset=\"UTF-8\">
+           <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+           <title>Precision Agriculture</title>
+           <!-- link with CSS-->
+           <link rel=\"stylesheet\"> <a href=\"css/style.css\"></a>
+       </head>
+       <body>
+       <center>
+           <div class=\"topnav\">
+               <h1>Monitoring Precision Agriculture</h1>
+           </div>
+           <div class=\"content\">
+               <div class=\"card-grid\">
+                   <div class=\"card\">
+                       <p class=\"card-title\"><i class=\"fas fa-thermometer-threequarters\" style=\"color:#059e8a;\"></i> Temperature</p>
+                       <p class=\"reading\"><span id=\"temperature\"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$deg." *C</p>
+                   </div>
+                   <div class=\"card\">
+                           <p class=\"card-title\"> Humidity</p>
+                           <p class=\"reading\"><span id=\"humidity\"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$percnt." %</p>
+                   </div>
+           <a href=\"showdata.php\" target=\"_blank\"><button class=\"button\"><span>Show All Data</span></button></a>
+           <a href=\"showdata.php\" target=\"_blank\"><button class=\"button\"><span>Graph</span></button></a>
+       </div>  
+       </div>
+       <div id=\"loader\" class=\"center\"></div>
+           <script src=\"script.js\"></script>
+       </center>
+       </body>
+       </html>
+       ";
+   }
+
+    else    {
+        echo "0 results";
+    }
+    // closing connection
+    mysqli_close($con);
+?>
+
+
+<?php
+//Receive the JSON dataframe Google Colab
+$json_data= file_get_contents('php://input');
+
+//Decode the JSON data into a PHP array
+$data= json_decode($json_data, true);
+
+//Convert the PHP array into a Dataframe
+$dataframe= pd.DataFrame(data)
+
+//Generate HTML code from the DataFrame
+$html = '<table>';
+foreach($dataframe as $row){
+    $html.= '<tr>';
+    foreach($row as $value){
+        $html.='<td>'. $value. '</td>';
+    }
+    $html.= '<tr>';
+}
+$html.= '</table>';
+//Display the Html code on the webpage
+echo $html
+
+document.getElementById('get-data-button').addEventListener('click', function(){
+	fetch('show.php')
+	.then(data=>
+		{
+		//Display the JSON data in a table
+		let table = document.createElement('table');
+		table.setAttribute('topic1|message_payload|timestamp1', 'Date', 'Time', 'Temp', 'Humidity', 'temp(depend)', 'Hum(depend)', 'depend1', 'depend2', 'Result');
+		for(let row of data){
+			let tr= document.createElement('tr');
+			for(let cell of row){
+				let td=document.createElement('td');
+				td.textContent = cell;
+				tr.appendChild(td);
+			}
+			table.appendChild(tr);
+		}
+		document.getElementById('data-cointainer').appendChild(table);
+	});
+});
