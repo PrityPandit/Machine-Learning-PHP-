@@ -135,4 +135,10 @@ for index, row in df.iterrows():
 #print the Dataframe
 print(df)
 #convert the dataframe to JSON format
-json_data= df.to_json(orient='records')
+json_data = df.to_json(orient='records')
+
+#write json data in file
+file_path = 'output.json'
+
+with open(file_path, 'w') as json_file:
+    json_file.write(json_data)

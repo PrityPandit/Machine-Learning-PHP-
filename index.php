@@ -92,8 +92,9 @@ body{
      <a href="showdata.php" target="_blank"><button class="button"><span>Table</span></button></a>
      <div id="loader" class="center"></div>
     <script src="script.js"></script>
-    <a href="show.php" target="_blank"><button id="get-data-button"><span>Display Dataframe</span></button></a>
-
+    <form action = "show.php" method="post">
+        <input type="submit" name="submit" value="Display Dataframe">
+    </form>
  </div>  
 </div>
 

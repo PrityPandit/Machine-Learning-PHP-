@@ -11,9 +11,6 @@ if (!$conn)
 	die("Connection failed: " . mysqli_connect_error()); 
 } 
 
-
-
-
 echo "Database connection is OK <br>"; 
 $sql = "SELECT `ID`, `temperature`, `humidity`, `date`, `time` FROM `data-copy`";
     //fire query
