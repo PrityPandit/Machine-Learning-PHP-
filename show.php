@@ -26,10 +26,10 @@ if(isset($_POST['submit'])){
 
         echo '<table> 
         <tr>  
-            <th> Date </th> 
-            <th> Time </th> 
-            <th> Temp </th> 
-            <th> Humidity </th>
+            <th> date </th> 
+            <th> time </th> 
+            <th> temperature </th> 
+            <th> humidity </th>
             <th> temp(depend) </th> 
             <th> Hum(depend) </th> 
             <th> depend1 </th> 
@@ -39,10 +39,10 @@ if(isset($_POST['submit'])){
 
         for($i = 0; $i < sizeof($users); $i++) {
         echo '<tr > 
-            <td>' . $users[$i]['Date'] . '</td>
-            <td> ' . $users[$i]['Time'] . '</td>
-            <td>' . $users[$i]['Temp'] . '</td>
-            <td>' . $users[$i]['Humidity'] . '</td> 
+            <td>' . $users[$i]['date'] . '</td>
+            <td> ' . $users[$i]['time'] . '</td>
+            <td>' . $users[$i]['temperature'] . '</td>
+            <td>' . $users[$i]['humidity'] . '</td> 
             <td>' . $users[$i]['temp(depend)'] . '</td>
             <td> ' . $users[$i]['Hum(depend)'] . '</td>
             <td>' . $users[$i]['depend1'] . '</td>

@@ -275,3 +275,81 @@ document.getElementById('get-data-button').addEventListener('click', function(){
 		document.getElementById('data-cointainer').appendChild(table);
 	});
 });
+def update_plot(Hum(depend), temp(depend)):
+  #Clear existing plot
+  plt.clf()
+
+  #Fetch temperature and humidity regresssion data
+  Hum(depend), temp(depend)= fetch_data()
+  #Update the plot with the latest data
+  update_plot( Hum(depend), temp(depend)) 
+
+import pymysql
+
+import csv
+
+ 
+
+# Connect to MySQL
+
+conn = pymysql.connect(host='localhost',
+
+                       user='root',
+
+                       password='password',
+
+                       db='my_database')
+
+ 
+
+# Create a cursor
+
+cur = conn.cursor()
+
+ 
+
+# Get the data from the table
+
+cur.execute('SELECT * FROM my_table')
+
+ 
+
+# Get the results as a list of tuples
+
+results = cur.fetchall()
+
+ 
+
+# Close the cursor
+
+cur.close()
+
+ 
+
+# Open a CSV file for writing
+
+with open('my_data.csv', 'w') as csvfile:
+
+  # Create a CSV writer object
+
+  writer = csv.writer(csvfile)
+
+ 
+
+  # Write the header row
+
+  writer.writerow(['column1', 'column2', 'column3'])
+
+ 
+
+  # Write the data rows
+
+  for row in results:
+
+    writer.writerow(row)
+
+ 
+
+# Close the CSV file
+
+csvfile.close()

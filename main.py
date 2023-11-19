@@ -1,30 +1,77 @@
 import numpy as np
 import pandas as pd
 import json
+import pymysql
+import csv
+import matplotlib.pyplot as plt
+import time
 
-df = pd.read_csv("111.csv")
+
+# Connect to MySQL
+
+conn = pymysql.connect(host="localhost",
+
+                       user="root",
+
+                       password='',
+
+                       database="data-copy")
+
+# Create a cursor
+cur = conn.cursor()
+
+ #Get the data from the table
+
+cur.execute("SELECT * FROM `data-copy`")
+
+# Get the results as a list of tuples
+
+results = cur.fetchall()
+# Close the cursor
+
+cur.close()
+
+# Open a CSV file for writing
+
+with open('my_data.csv', 'w') as csvfile:
+
+  # Create a CSV writer object
+
+  writer = csv.writer(csvfile)
+
+  # Write the header row
+  writer.writerow(['ID', 'date', 'time', 'temperature', 'humidity'])
+
+  # Write the data rows
+  for row in results:
+    writer.writerow(row)
+
+# Close the CSV file
+
+csvfile.close()
+df = pd.read_csv("my_data.csv")
 print(df)
 # Extract the "Temperature" column
-Temp_column = df['Temp']
+Temp_column = df['temperature']
 
 # Create a new column for the results
 df['temp(depend)'] = None
 
 # Iterate over the rows of the DataFrame
 for index, row in df.iterrows():
-  df.loc[index, 'temp(depend)']= 1+row['Temp']
+  df.loc[index, 'temp(depend)']= 1 + row['temperature']
 
 # Print the DataFrame
 print(df)
 # Extract the "Humidity" column
-Humidity_column = df['Humidity']
+Humidity_column = df['humidity']
 
 # Create a new column for the results
 df['Hum(depend)'] = None
 
 # Iterate over the rows of the DataFrame
 for index, row in df.iterrows():
-  df.loc[index, 'Hum(depend)']= 1+row['Humidity']
+  df.loc[index, 'Hum(depend)']= 1 + row['humidity']
 
 # Print the DataFrame
 print(df)
@@ -36,8 +83,11 @@ df.shape
 
 df.info()
 df.describe()
-import seaborn as sns
-sns.scatterplot(x="Hum(depend)", y="temp(depend)", data=df);
+# Extract the "Temperature" column
+Temp_column = df['temp(depend)']
+# Extract the "Hum(depend)" column
+Hum_column = df['Hum(depend)']
+
 #Seperate independent and dependent variable
 x= df.iloc[:, -2].values
 y= df.iloc[:, -1].values
@@ -85,7 +135,7 @@ df['depend1'] = None
 for index, row in df.iterrows():
 
   #check the condition
-  if 28<=row['temp(depend)'] <=30:
+  if 12<=row['temp(depend)'] <=35:
     #assign a value to the new column if the condition is met
     df.loc[index, 'depend1'] = True
   else:
@@ -96,6 +146,7 @@ for index, row in df.iterrows():
 print(df)
 # Extract the "Hum(depend)" column
 Temp_column = df['Hum(depend)']
+
 
 # Create a new column for the results
 df['depend2'] = None
@@ -142,3 +193,25 @@ file_path = 'output.json'
 
 with open(file_path, 'w') as json_file:
     json_file.write(json_data)
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Calculate the correlation coefficient
+correlation = df['humidity'].corr(df['temperature'])
+
+# Create a scatter plot of the two columns
+sns.scatterplot(x=df['humidity'], y= df['temperature'], data=df)
+
+# Add a line of best fit to the scatter plot
+sns.regplot(x=df['humidity'], y=df['temperature'], data=df)
+
+# Add a label to the axis
+plt.xlabel(df['humidity'])
+plt.ylabel(df['temperature'])
+
+# Add a title to the plot
+plt.title('Correlation between Humidity and Temperature')
+
+# Show the plot
+plt.show()
