@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Precision Agriculture</title>
+     <!-- link with CSS-->
+     <link rel="stylesheet" href="./style.css">
+     <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700&display=swap');
+    </style>
+</head>
+<body>
+        <div class="topnav">
+        <h1>Monitoring Precision Agriculture</h1>
+    </div>
+    <div class="content">
+        <div class="card-grid">
+    
+            <div class="card">
+                <p class="card-title"><i class="fas fa-thermometer-threequarters" style="color:#059e8a;"></i> Temperature</p>
+                <p class="reading"><span id="temperature"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$deg." *C</p>
+             </div>
+             <div class="card">
+                    <p class="card-title"> Humidity</p>
+                    <p class="reading"><span id="humidity"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$percnt." %</p>
+             </div>
+             <div class="card">
+                    <p class="card-title"> Soil Moisture </p>
+                    <p class="reading"><span id="soil_moist"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</p>
+             </div>
+             <div class="card">
+                    <p class="card-title"> N</p>
+                    <p class="reading"><span id="N"></span></p>
+             </div>
+             <div class="card">
+                    <p class="card-title"> K</p>
+                    <p class="reading"><span id="K"></span></p>
+             </div>
+             <div class="card">
+                    <p class="card-title"> P</p>
+                    <p class="reading"><span id="P"></span></p>
+             </div>
+ <a href="insertData.php" target="_blank"><button class="button"><span>Insert Data</span></button></a>
+            <a href="showdata.php" target="_blank"><button class="button"><span>Table</span></button></a>
+     <div id="loader" class="center"></div>
+    <script src="script.js"></script>
+    <form action = "show.php" method="post">
+        <input type="submit" name="submit" value="Display Dataframe">
+    </form>
+    
+    
+    <a href="graph.php"target="_blank"><button class="button"><span>Generate Scatter Plot</span></button></a>
+    <div id="scatterPlotContainer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <canvas id="chart-canvas">
+ </div>  
+</div>
+</body>
+</html>      

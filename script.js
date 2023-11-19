@@ -5,7 +5,7 @@ document.onreadystatechange = function() {
 	} else { 
 		document.querySelector("#loader").style.display = "none"; 
 		document.querySelector("body").style.visibility = "visible";
-		setInterval(autoUpdate, 1000);
+		autoUpdate();
 	}
 };
 
