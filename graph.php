@@ -9,7 +9,23 @@ if (!$conn)
 	die("Connection failed: " . mysqli_connect_error());
 } 
 
-  $sql = "SELECT `temperature`, `humidity` FROM `data-copy`";
+  $sql = "SELECT `temperature`, `humidity` FROM `data-copy` WHERE `date`=CURDATE()  ";
+
+  $result = $conn->query($sql);
+  echo $result;
+  if ($result) {
+    $data = array();
+    while ($row = mysqli_fetch_assoc($result)) {
+      $data[] = $row;
+    }
+  } 
+  else {
+    echo "Error retrieving data";
+  }
+
+  $a = json_encode($data);
+  
+  $sql = "SELECT `temperature`, `humidity` FROM `data-copy` WHERE `date`=CURDATE()  ";
 
   $result = $conn->query($sql);
 
@@ -23,8 +39,7 @@ if (!$conn)
     echo "Error retrieving data";
   }
 
-  $a = json_encode($data);
-  
+  $b = json_encode($data);
   mysqli_close($conn);
   
 ?>
@@ -50,6 +65,48 @@ if (!$conn)
   for(let i = 0; i < a.length; i++) {
     temp.push(a[i].temperature);
     humidity.push(a[i].humidity);
+  }
+  const labels = temp;
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'Temprature',
+      data: temp,
+      
+    },{
+      label: 'Humidity',
+      data: humidity,
+    }]
+  };
+
+  const config = {
+    type: 'line',
+    data: data,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    },
+  };
+
+  var myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+  </script>
+  <div>
+  <canvas id="myChart"></canvas>
+</div>
+<script>
+  var b = <?php echo $b; ?>;
+  console.log(b);
+  var temp = [];
+  var humidity = [];
+  for(let i = 0; i < b.length; i++) {
+    temp.push(b[i].temperature);
+    humidity.push(b[i].humidity);
   }
   const labels = temp;
   const data = {

@@ -4,7 +4,7 @@
 $hostname = "localhost" ;
 $username  = "root" ;
 $password  = "" ;
-$database   = "data-Copy" ;
+$database   = "data-copy" ;
 $conn = mysqli_connect($hostname, $username, $password, $database);
 
 if (!$conn) 
@@ -149,11 +149,12 @@ body{
     
     
     <a href=\"graph.php\"target=\"_blank\"><button class=\"button\"><span>Generate Scatter Plot</span></button></a>
+    <a href=\"video.php\"target=\"_blank\"><button class=\"button\"><span>Live Streaming Video</span></button></a>
     <div id=\"scatterPlotContainer\"></div>
     <script src=\"https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js\"></script>
     <canvas id=\"chart-canvas\">
- </div>  
-</div>
+    </div>  
+ <a href=\"recommend.php\" target=\"blank\"><button class=\"button\"><span>Recommendation</span></button></a></div>
 
 
  

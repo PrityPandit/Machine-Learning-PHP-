@@ -155,7 +155,7 @@ df['depend2'] = None
 for index, row in df.iterrows():
 
   #check the condition
-  if 80<=row['Hum(depend)'] <=85:
+  if 70<=row['Hum(depend)'] <=80:
     #assign a value to the new column if the condition is met
     df.loc[index, 'depend2'] = True
   else:
