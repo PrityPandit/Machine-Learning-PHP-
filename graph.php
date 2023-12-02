@@ -9,26 +9,9 @@ if (!$conn)
 	die("Connection failed: " . mysqli_connect_error());
 } 
 
-  $sql = "SELECT `temperature`, `humidity` FROM `data-copy` WHERE `date`=CURDATE()  ";
-
-  $result = $conn->query($sql);
-  echo $result;
-  if ($result) {
-    $data = array();
-    while ($row = mysqli_fetch_assoc($result)) {
-      $data[] = $row;
-    }
-  } 
-  else {
-    echo "Error retrieving data";
-  }
-
-  $a = json_encode($data);
+  $sql = "SELECT `temperature`, `humidity`, `date`, `time` FROM `data-copy`";
+  $result = mysqli_query($conn, $sql);
   
-  $sql = "SELECT `temperature`, `humidity` FROM `data-copy` WHERE `date`=CURDATE()  ";
-
-  $result = $conn->query($sql);
-
   if ($result) {
     $data = array();
     while ($row = mysqli_fetch_assoc($result)) {
@@ -39,8 +22,22 @@ if (!$conn)
     echo "Error retrieving data";
   }
 
-  $b = json_encode($data);
   mysqli_close($conn);
+  
+
+
+    // Filter data for morning, afternoon, and evening
+    $morningData = array_filter($data, function($item) {
+      return (strtotime($item['time']) >= strtotime('06:00:00') && strtotime($item['time']) < strtotime('12:00:00'));
+  });
+  
+  $afternoonData = array_filter($data, function($item) {
+      return (strtotime($item['time']) >= strtotime('12:00:00') && strtotime($item['time']) < strtotime('18:00:00'));
+  });
+  
+  $eveningData = array_filter($data, function($item) {
+      return (strtotime($item['time']) >= strtotime('18:00:00') && strtotime($item['time']) <= strtotime('23:59:59'));
+  });
   
 ?>
 <!DOCTYPE html>
@@ -54,19 +51,24 @@ if (!$conn)
 </head>
 <body>
 <div>
-  <canvas id="myChart"></canvas>
+  <canvas id="morningChart"></canvas>
 </div>
-<script>
+<!-- <script>
+
   // === include 'setup' then 'config' above ===
-  var a = <?php echo $a; ?>;
-  console.log(a);
+  var morningData =<?php echo($morningData); ?>;
+
+  console.log(morningData);
   var temp = [];
   var humidity = [];
-  for(let i = 0; i < a.length; i++) {
-    temp.push(a[i].temperature);
-    humidity.push(a[i].humidity);
+  var time = [];
+ 
+  for(let i = 0; i < morningData.length; i++) {
+    temp.push(morningData[i].temperature);
+    humidity.push(morningData[i].humidity);
+    time.push(morningData[i].time);
   }
-  const labels = temp;
+  const labels = time;
   const data = {
     labels: labels,
     datasets: [{
@@ -80,9 +82,15 @@ if (!$conn)
   };
 
   const config = {
-    type: 'line',
+    type: 'bar',
     data: data,
     options: {
+      plugins: {
+      title: {
+        text:date,
+        display: true
+      }
+    },
       scales: {
         y: {
           beginAtZero: true
@@ -92,23 +100,26 @@ if (!$conn)
   };
 
   var myChart = new Chart(
-    document.getElementById('myChart'),
+    document.getElementById('morningChart'),
     config
   );
-  </script>
-  <div>
-  <canvas id="myChart"></canvas>
-</div>
+</script> -->
+   <div>
+        <canvas id="eveningChart"></canvas>
+    </div>
 <script>
-  var b = <?php echo $b; ?>;
-  console.log(b);
+  var eveningData = <?php echo json_encode($eveningData); ?>;
+  console.log(eveningData);
   var temp = [];
   var humidity = [];
-  for(let i = 0; i < b.length; i++) {
-    temp.push(b[i].temperature);
-    humidity.push(b[i].humidity);
+  var time = [];
+  var date = eveningData.length > 0 ? eveningData[0].date : null;
+  for(let i = 0; i < eveningData.length; i++) {
+    temp.push(eveningData[i].temperature);
+    humidity.push(eveningData[i].humidity);
+    time.push(eveningData[i].time);
   }
-  const labels = temp;
+  const labels = time;
   const data = {
     labels: labels,
     datasets: [{
@@ -121,23 +132,31 @@ if (!$conn)
     }]
   };
 
-  const config = {
-    type: 'line',
-    data: data,
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
+    const config = {
+      type: 'bar',
+      data: data,
+      options: {
+        plugins: {
+        title: {
+          text:date,
+          display: true
         }
-      }
-    },
-  };
+      },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      },
+    };
 
-  var myChart = new Chart(
-    document.getElementById('myChart'),
-    config
-  );
-</script>
+    var myChart = new Chart(
+      document.getElementById('eveningChart'),
+      config
+    );
+  </script>
+
+
 </body>
 </html>
 
