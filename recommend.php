@@ -30,17 +30,18 @@ if(mysqli_num_rows($result) > 0)
         $minTemp= min($minTemp, $temperature);
     }
     //Display the results
-    echo "Maximum Temperature: " .$maxTemp. "<br>";
-    echo "Minimum Temperature: " .$minTemp. "<br>";
+    //echo "Maximum Temperature: " .$maxTemp. "<br>";
+    //echo "Minimum Temperature: " .$minTemp. "<br>";
 
     //Check temperature condition and set fan status flag
     $thresholdTemperature = 35;
     $fanStatus =($temperature >= $thresholdTemperature) ? true : false;
     //Display fan status message
+    $relatedRecomendation = "";
     if ($fanStatus){
-        echo "Cooling fan needs to be ON";
+        $relatedRecomendation =  "Cooling fan needs to be ON";
     } else{
-        echo "Cooling fan needs to be OFF";
+        $relatedRecomendation = "Cooling fan needs to be OFF";
     }
     echo "<br>" ;
     echo"<br>";
@@ -63,16 +64,17 @@ if(mysqli_num_rows($result) > 0)
         $minhumidity= min($minhumidity, $humidity);
     }
     //Display the results
-    echo "Maximum Humidity: " .$maxhumidity. "<br>";
-    echo "Minimum Temperature: " .$minhumidity. "<br>";
+    //echo "Maximum Humidity: " .$maxhumidity. "<br>";
+    //echo "Minimum Temperature: " .$minhumidity. "<br>";
 //Check temperature condition and set fan status flag
 $thresholdHumidity = 80;
 $DehumidifierStatus =($humidity >= $thresholdHumidity) ? true : false;
+$dehumidifierStatusString = "";
     //Display fan status message
 if ($DehumidifierStatus){
-        echo "Dehumidifier needs to be ON";
+        $dehumidifierStatusString = "Dehumidifier needs to be ON";
     } else{
-        echo "Dehumidifier needs to be OFF";
+        $dehumidifierStatusString = "Dehumidifier needs to be OFF";
     }
   
   
@@ -88,10 +90,53 @@ html {
     display: inline-block;
     text-align: center;
     text-size: large;
+}
+    .card-grid {
+        max-width: 800px;
+        margin: 0 auto;
+        display: grid;
+        grid-gap: 2rem;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    .card {
+        background-color: white;
+        box-shadow: 2px 2px 12px 1px rgba(140,140,140,.5);
+    }
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #034078
+    }
 </style>
 </head>
 <body>
+<div class=\"content\">
+<div class=\"card-grid\">
 
+    <div class=\"card\">
+        <p class=\"card-title\"><i class=\"fas fa-thermometer-threequarters\" style=\"color:#059e8a;\"></i>Maximum Temperature</p>
+        <p class=\"reading\"><span id=\"temperature\"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$maxTemp." *C</p>
+        </div>
+        <div class=\"card\">
+        <p class=\"card-title\"><i class=\"fas fa-thermometer-threequarters\" style=\"color:#059e8a;\"></i>Minimum Temperature</p>
+        <p class=\"reading\"><span id=\"temperature\"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$minTemp." *C</p>
+        </div>
+        <div class=\"card\">
+            <p class=\"card-title\"><i class=\"fas fa-thermometer-threequarters\" style=\"color:#059e8a;\"></i>Releted recommendation</p>
+            <p class=\"reading\"><span id=\"temperature\"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$relatedRecomendation." </p>
+        </div>
+        <div class=\"card\">
+            <p class=\"card-title\"> Maximum Humidity</p>
+            <p class=\"reading\"><span id=\"humidity\"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$maxhumidity." %</p>
+        </div>
+        <div class=\"card\">
+            <p class=\"card-title\"> Minimum Humidity</p>
+            <p class=\"reading\"><span id=\"humidity\"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$minhumidity." %</p> 
+        </div>
+        <div class=\"card\">
+            <p class=\"card-title\"><i class=\"fas fa-thermometer-threequarters\" style=\"color:#059e8a;\"></i>Dehumidifier</p>
+            <p class=\"reading\"><span id=\"temperature\"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$dehumidifierStatusString." </p>
+        </div>
 </body>
 </html> " ;
 
