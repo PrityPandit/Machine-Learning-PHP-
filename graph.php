@@ -169,7 +169,7 @@ if (!$conn)
         }
       },
         scales: {
-          y: {
+         y: {
             beginAtZero: true
           }
         }
