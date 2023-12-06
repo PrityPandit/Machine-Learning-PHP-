@@ -39,7 +39,10 @@ if (!$conn)
   $eveningData = array_filter($data, function($item) {
     return (strtotime($item['time']) >= strtotime('18:00:00') && strtotime($item['time']) <= strtotime('23:59:59'));
   });
-  
+
+  $nightData = array_filter($data, function($item) {
+    return (strtotime($item['time']) >= strtotime('00:00:00') && strtotime($item['time']) < strtotime('06:00:00'));
+  });
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,16 +55,25 @@ if (!$conn)
 </head>
 <body>
 <div>
+  <h1>Morning Data</h1>
   <canvas id="morningChart"></canvas>
 </div>
 <div>
+  <h1>AfterNoon Data</h1>
   <canvas id="afternoonChart"></canvas>
 </div> 
 <div>
+  <h1>Evening Data</h1>
   <canvas id="eveningChart"></canvas>
+</div> 
+<div>
+  <h1>Night Data</h1>
+  <canvas id="nightChart"></canvas>
 </div> 
 
 <script>
+
+  //Morning Data
  var morningData = <?php echo json_encode($morningData); ?>;
   // console.log(morningData);
   var morningTemp = [];
@@ -223,6 +235,61 @@ if (!$conn)
     var myChart = new Chart(
       document.getElementById('afternoonChart'),
       afternoonConfig
+    );
+
+
+
+  // Night Data
+  var nightData = <?php echo json_encode($nightData); ?>;
+  // console.log(nightData);
+  var ntemp = [];
+  var nhumidity = [];
+  var ntime = [];
+
+  const nightDataKey = Object.keys(nightData);
+  const nDate = nightData[nightDataKey[0]].date;
+
+  for(let i = 0; i < nightDataKey.length; i++) {
+    ntemp.push(nightData[nightDataKey[i]].temperature);
+    ntime.push(nightData[nightDataKey[i]].time);
+    nhumidity.push(nightData[nightDataKey[i]].humidity);
+
+  }
+
+  const nlabels = ntime;
+  const night_data = {
+    labels: nlabels,
+    datasets: [{
+      label: 'Temprature',
+      data: ntemp,
+      
+    },{
+      label: 'Humidity',
+      data: nhumidity,
+    }]
+  };
+
+    const nightConfig = {
+      type: 'bar',
+      data: night_data,
+      options: {
+        plugins: {
+        title: {
+          text:nDate,
+          display: true
+        }
+      },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      },
+    };
+
+    var myChart = new Chart(
+      document.getElementById('nightChart'),
+      nightConfig
     );
 </script> 
 </body>
