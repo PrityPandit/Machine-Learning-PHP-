@@ -141,20 +141,21 @@ body{
             
 
      <a href=\"showdata.php\" target=\"_blank\"><button class=\"button\"><span>Table</span></button></a>
-     <div id=\"loader\" class=\"center\"></div>
+     <!--<div id=\"loader\" class=\"center\"></div>
     <script src=\"script.js\"></script>
     <form action = \"show.php\" method=\"post\">
         <input type=\"submit\" name=\"submit\" value=\"Display Dataframe\">
-    </form>
+    </form>-->
     
     
     <a href=\"graph.php\"target=\"_blank\"><button class=\"button\"><span>Generate Scatter Plot</span></button></a>
+    <a href=\"recommend.php\" target=\"_blank\"><button class=\"button\"><span>Recommendation</span></button></a></div>
     <a href=\"video.php\"target=\"_blank\"><button class=\"button\"><span>Live Streaming Video</span></button></a>
     <div id=\"scatterPlotContainer\"></div>
     <script src=\"https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js\"></script>
     <canvas id=\"chart-canvas\">
     </div>  
- <a href=\"recommend.php\" target=\"blank\"><button class=\"button\"><span>Recommendation</span></button></a></div>
+ 
 
 
  

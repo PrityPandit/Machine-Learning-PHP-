@@ -53,7 +53,7 @@ if (!$conn)
 <div>
   <canvas id="morningChart"></canvas>
 </div>
-<!-- <script>
+ <!--<script>
 
   // === include 'setup' then 'config' above ===
   var morningData =<?php echo($morningData); ?>;
@@ -103,7 +103,59 @@ if (!$conn)
     document.getElementById('morningChart'),
     config
   );
-</script> -->
+</script> 
+
+<div>
+        <canvas id="afternoonChart"></canvas>
+    </div>
+<script>
+  var afternoonData = <?php echo json_encode($afternoonData); ?>;
+  console.log(afternoonData);
+  var temp = [];
+  var humidity = [];
+  var time = [];
+  var date = afternoonData.length > 0 ? afternoonData[0].date : null;
+  for(let i = 0; i < afternoonData.length; i++) {
+    temp.push(afternoonData[i].temperature);
+    humidity.push(afternoonData[i].humidity);
+    time.push(afternoonData[i].time);
+  }
+  const labels = time;
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'Temprature',
+      data: temp,
+      
+    },{
+      label: 'Humidity',
+      data: humidity,
+    }]
+  };
+
+    const config = {
+      type: 'bar',
+      data: data,
+      options: {
+        plugins: {
+        title: {
+          text:date,
+          display: true
+        }
+      },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      },
+    };
+
+    var myChart = new Chart(
+      document.getElementById('afternoonChart'),
+      config
+    );
+  </script>--->
    <div>
         <canvas id="eveningChart"></canvas>
     </div>
