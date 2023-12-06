@@ -37,11 +37,11 @@ if(mysqli_num_rows($result) > 0)
     $thresholdTemperature = 35;
     $fanStatus =($temperature >= $thresholdTemperature) ? true : false;
     //Display fan status message
+    $relatedRecomendation = "";
     if ($fanStatus){
-        echo "Cooling fan needs to be ON";
-        
+        $relatedRecomendation =  "Cooling fan needs to be ON";
     } else{
-        echo "Cooling fan needs to be OFF";
+        $relatedRecomendation = "Cooling fan needs to be OFF";
     }
     echo "<br>" ;
     echo"<br>";
@@ -69,11 +69,12 @@ if(mysqli_num_rows($result) > 0)
 //Check temperature condition and set fan status flag
 $thresholdHumidity = 80;
 $DehumidifierStatus =($humidity >= $thresholdHumidity) ? true : false;
+$dehumidifierStatusString = "";
     //Display fan status message
 if ($DehumidifierStatus){
-        echo "Dehumidifier needs to be ON";
+        $dehumidifierStatusString = "Dehumidifier needs to be ON";
     } else{
-        echo "Dehumidifier needs to be OFF";
+        $dehumidifierStatusString = "Dehumidifier needs to be OFF";
     }
   
   
@@ -122,7 +123,7 @@ html {
         </div>
         <div class=\"card\">
             <p class=\"card-title\"><i class=\"fas fa-thermometer-threequarters\" style=\"color:#059e8a;\"></i>Releted recommendation</p>
-            <p class=\"reading\"><span id=\"temperature\"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$command." </p>
+            <p class=\"reading\"><span id=\"temperature\"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$relatedRecomendation." </p>
         </div>
         <div class=\"card\">
             <p class=\"card-title\"> Maximum Humidity</p>
@@ -134,7 +135,7 @@ html {
         </div>
         <div class=\"card\">
             <p class=\"card-title\"><i class=\"fas fa-thermometer-threequarters\" style=\"color:#059e8a;\"></i>Dehumidifier</p>
-        
+            <p class=\"reading\"><span id=\"temperature\"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$dehumidifierStatusString." </p>
         </div>
 </body>
 </html> " ;

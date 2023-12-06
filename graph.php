@@ -82,12 +82,19 @@ if (!$conn)
   morningDataKey  = (Object.keys(morningData));
   var morningDate = morningData[morningDataKey[0]].date;
   // console.log(morningDataKey);
+  var morningScatterTypeTempData = []
+  var morningScatterTypeHumidityData = []
   for(let i = 0; i < morningDataKey.length; i++) {
 
     // console.log(morningData[morningDataKey[i]]);
     morningTemp.push(morningData[morningDataKey[i]].temperature);
     morningHumidity.push(morningData[morningDataKey[i]].humidity);
     morningTime.push(morningData[morningDataKey[i]].time);
+  }
+
+  for(let i = 0; i < morningDataKey.length; i++) {
+    morningScatterTypeTempData.push({x: i, y: morningTemp[i] })
+    morningScatterTypeHumidityData.push({x: i, y: morningHumidity[i]})
   }
   // console.log(morningTemp);
   // console.log(morningHumidity);
@@ -97,16 +104,15 @@ if (!$conn)
     labels: mlabels,
     datasets: [{
       label: 'Temprature',
-      data: morningTemp,
-      
+      data: morningScatterTypeTempData,
     },{
       label: 'Humidity',
-      data: morningHumidity,
+      data: morningScatterTypeHumidityData,
     }]
   };
 
     const morningConfig = {
-      type: 'bar',
+      type: 'line',
       data: morning_Data,
       options: {
         plugins: {
@@ -136,30 +142,38 @@ if (!$conn)
   var humidity = [];
   var time = [];
   var date = eveningData.length > 0 ? eveningData[0].date : null;
-
+  var eveningScatterTypeTempData = []
+  var eveningScatterTypeHumidityData = []
   eveningDataKey = Object.keys(eveningData);
   for(let i = 0; i < eveningDataKey.length; i++) {
     temp.push(eveningData[eveningDataKey[i]].temperature);
     humidity.push(eveningData[eveningDataKey[i]].humidity);
     time.push(eveningData[eveningDataKey[i]].time);
-
   }
+
+  for(let i = 0; i < eveningDataKey.length; i++) {
+    eveningScatterTypeTempData.push({x: i, y: temp[i] })
+    eveningScatterTypeHumidityData.push({x: i, y: humidity[i]})
+  }
+
+
 
   const elabels = time;
   const data = {
     labels: elabels,
     datasets: [{
       label: 'Temprature',
-      data: temp,
-      
-    },{
+      data: eveningScatterTypeTempData,
+    },
+    {
       label: 'Humidity',
-      data: humidity,
-    }]
+      data: eveningScatterTypeHumidityData,
+    }
+  ]
   };
 
     const eveningConfig = {
-      type: 'bar',
+      type: 'line',
       data: data,
       options: {
         plugins: {
@@ -194,6 +208,8 @@ if (!$conn)
   const afternoonDataKey = Object.keys(afternoonData);
   const aDate = afternoonData[afternoonDataKey[0]].date;
 
+  var afterNoonScatterTypeTempData = []
+  var afterNoonScatterTypeHumidityData = []
   for(let i = 0; i < afternoonDataKey.length; i++) {
     atemp.push(afternoonData[afternoonDataKey[i]].temperature);
     ahumidity.push(afternoonData[afternoonDataKey[i]].humidity);
@@ -201,21 +217,26 @@ if (!$conn)
 
   }
 
+  for(let i = 0; i < afternoonDataKey.length; i++) {
+    afterNoonScatterTypeTempData.push({x: i, y: atemp[i] })
+    afterNoonScatterTypeHumidityData.push({x: i, y: ahumidity[i]})
+  }
+
   const alabels = atime;
   const afternoon_data = {
     labels: alabels,
     datasets: [{
       label: 'Temprature',
-      data: temp,
+      data: afterNoonScatterTypeTempData,
       
     },{
       label: 'Humidity',
-      data: humidity,
+      data: afterNoonScatterTypeHumidityData,
     }]
   };
 
     const afternoonConfig = {
-      type: 'bar',
+      type: 'line',
       data: afternoon_data,
       options: {
         plugins: {
@@ -248,7 +269,8 @@ if (!$conn)
 
   const nightDataKey = Object.keys(nightData);
   const nDate = nightData[nightDataKey[0]].date;
-
+  var nightScatterTypeTempData = []
+  var nightScatterTypeHumidityData = []
   for(let i = 0; i < nightDataKey.length; i++) {
     ntemp.push(nightData[nightDataKey[i]].temperature);
     ntime.push(nightData[nightDataKey[i]].time);
@@ -256,21 +278,26 @@ if (!$conn)
 
   }
 
+  for(let i = 0; i < nightDataKey.length; i++) {
+    nightScatterTypeTempData.push({x: i, y: ntemp[i] })
+    nightScatterTypeHumidityData.push({x: i, y: nhumidity[i]})
+  }
+
   const nlabels = ntime;
   const night_data = {
     labels: nlabels,
     datasets: [{
       label: 'Temprature',
-      data: ntemp,
+      data: nightScatterTypeTempData,
       
     },{
       label: 'Humidity',
-      data: nhumidity,
+      data: nightScatterTypeHumidityData,
     }]
   };
 
     const nightConfig = {
-      type: 'bar',
+      type: 'line',
       data: night_data,
       options: {
         plugins: {
