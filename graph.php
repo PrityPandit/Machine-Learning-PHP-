@@ -27,16 +27,17 @@ if (!$conn)
 
 
     // Filter data for morning, afternoon, and evening
-    $morningData = array_filter($data, function($item) {
+  $morningData = array_filter($data, function($item) {
       return (strtotime($item['time']) >= strtotime('06:00:00') && strtotime($item['time']) < strtotime('12:00:00'));
   });
   
+  
   $afternoonData = array_filter($data, function($item) {
-      return (strtotime($item['time']) >= strtotime('12:00:00') && strtotime($item['time']) < strtotime('18:00:00'));
+    return (strtotime($item['time']) >= strtotime('12:00:00') && strtotime($item['time']) < strtotime('18:00:00'));
   });
   
   $eveningData = array_filter($data, function($item) {
-      return (strtotime($item['time']) >= strtotime('18:00:00') && strtotime($item['time']) <= strtotime('23:59:59'));
+    return (strtotime($item['time']) >= strtotime('18:00:00') && strtotime($item['time']) <= strtotime('23:59:59'));
   });
   
 ?>
@@ -53,93 +54,52 @@ if (!$conn)
 <div>
   <canvas id="morningChart"></canvas>
 </div>
- <!--<script>
-
-  // === include 'setup' then 'config' above ===
-  var morningData =<?php echo($morningData); ?>;
-
-  console.log(morningData);
-  var temp = [];
-  var humidity = [];
-  var time = [];
- 
-  for(let i = 0; i < morningData.length; i++) {
-    temp.push(morningData[i].temperature);
-    humidity.push(morningData[i].humidity);
-    time.push(morningData[i].time);
-  }
-  const labels = time;
-  const data = {
-    labels: labels,
-    datasets: [{
-      label: 'Temprature',
-      data: temp,
-      
-    },{
-      label: 'Humidity',
-      data: humidity,
-    }]
-  };
-
-  const config = {
-    type: 'bar',
-    data: data,
-    options: {
-      plugins: {
-      title: {
-        text:date,
-        display: true
-      }
-    },
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    },
-  };
-
-  var myChart = new Chart(
-    document.getElementById('morningChart'),
-    config
-  );
-</script> 
-
 <div>
-        <canvas id="afternoonChart"></canvas>
-    </div>
+  <canvas id="afternoonChart"></canvas>
+</div> 
+<div>
+  <canvas id="eveningChart"></canvas>
+</div> 
+
 <script>
-  var afternoonData = <?php echo json_encode($afternoonData); ?>;
-  console.log(afternoonData);
-  var temp = [];
-  var humidity = [];
-  var time = [];
-  var date = afternoonData.length > 0 ? afternoonData[0].date : null;
-  for(let i = 0; i < afternoonData.length; i++) {
-    temp.push(afternoonData[i].temperature);
-    humidity.push(afternoonData[i].humidity);
-    time.push(afternoonData[i].time);
+ var morningData = <?php echo json_encode($morningData); ?>;
+  // console.log(morningData);
+  var morningTemp = [];
+  var morningHumidity = [];
+  var morningTime = [];
+  morningDataKey  = (Object.keys(morningData));
+  var morningDate = morningData[morningDataKey[0]].date;
+  // console.log(morningDataKey);
+  for(let i = 0; i < morningDataKey.length; i++) {
+
+    // console.log(morningData[morningDataKey[i]]);
+    morningTemp.push(morningData[morningDataKey[i]].temperature);
+    morningHumidity.push(morningData[morningDataKey[i]].humidity);
+    morningTime.push(morningData[morningDataKey[i]].time);
   }
-  const labels = time;
-  const data = {
-    labels: labels,
+  // console.log(morningTemp);
+  // console.log(morningHumidity);
+
+  const mlabels = morningTime;
+  const morning_Data = {
+    labels: mlabels,
     datasets: [{
       label: 'Temprature',
-      data: temp,
+      data: morningTemp,
       
     },{
       label: 'Humidity',
-      data: humidity,
+      data: morningHumidity,
     }]
   };
 
-    const config = {
+    const morningConfig = {
       type: 'bar',
-      data: data,
+      data: morning_Data,
       options: {
         plugins: {
         title: {
-          text:date,
+          text:morningDate,
           display: true
         }
       },
@@ -152,28 +112,30 @@ if (!$conn)
     };
 
     var myChart = new Chart(
-      document.getElementById('afternoonChart'),
-      config
+      document.getElementById('morningChart'),
+      morningConfig
     );
-  </script>--->
-   <div>
-        <canvas id="eveningChart"></canvas>
-    </div>
-<script>
+
+//Evening Data
+
   var eveningData = <?php echo json_encode($eveningData); ?>;
-  console.log(eveningData);
+  // console.log(eveningData);
   var temp = [];
   var humidity = [];
   var time = [];
   var date = eveningData.length > 0 ? eveningData[0].date : null;
-  for(let i = 0; i < eveningData.length; i++) {
-    temp.push(eveningData[i].temperature);
-    humidity.push(eveningData[i].humidity);
-    time.push(eveningData[i].time);
+
+  eveningDataKey = Object.keys(eveningData);
+  for(let i = 0; i < eveningDataKey.length; i++) {
+    temp.push(eveningData[eveningDataKey[i]].temperature);
+    humidity.push(eveningData[eveningDataKey[i]].humidity);
+    time.push(eveningData[eveningDataKey[i]].time);
+
   }
-  const labels = time;
+
+  const elabels = time;
   const data = {
-    labels: labels,
+    labels: elabels,
     datasets: [{
       label: 'Temprature',
       data: temp,
@@ -184,7 +146,7 @@ if (!$conn)
     }]
   };
 
-    const config = {
+    const eveningConfig = {
       type: 'bar',
       data: data,
       options: {
@@ -204,11 +166,65 @@ if (!$conn)
 
     var myChart = new Chart(
       document.getElementById('eveningChart'),
-      config
+      eveningConfig
     );
-  </script>
 
 
+
+//AfterNoon Data
+
+  var afternoonData = <?php echo json_encode($afternoonData); ?>;
+  // console.log(afternoonData);
+  var atemp = [];
+  var ahumidity = [];
+  var atime = [];
+
+  const afternoonDataKey = Object.keys(afternoonData);
+  const aDate = afternoonData[afternoonDataKey[0]].date;
+
+  for(let i = 0; i < afternoonDataKey.length; i++) {
+    atemp.push(afternoonData[afternoonDataKey[i]].temperature);
+    ahumidity.push(afternoonData[afternoonDataKey[i]].humidity);
+    atime.push(afternoonData[afternoonDataKey[i]].time);
+
+  }
+
+  const alabels = atime;
+  const afternoon_data = {
+    labels: alabels,
+    datasets: [{
+      label: 'Temprature',
+      data: temp,
+      
+    },{
+      label: 'Humidity',
+      data: humidity,
+    }]
+  };
+
+    const afternoonConfig = {
+      type: 'bar',
+      data: afternoon_data,
+      options: {
+        plugins: {
+        title: {
+          text:aDate,
+          display: true
+        }
+      },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      },
+    };
+
+    var myChart = new Chart(
+      document.getElementById('afternoonChart'),
+      afternoonConfig
+    );
+</script> 
 </body>
 </html>
 
