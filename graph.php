@@ -27,22 +27,22 @@ if (!$conn)
 
 
     // Filter data for morning, afternoon, and evening
-  $morningData = array_filter($data, function($item) {
-      return (strtotime($item['time']) >= strtotime('06:00:00') && strtotime($item['time']) < strtotime('12:00:00'));
-  });
+  // $morningData = array_filter($data, function($item) {
+  //     return (strtotime($item['time']) >= strtotime('06:00:00') && strtotime($item['time']) < strtotime('12:00:00'));
+  // });
   
   
-  $afternoonData = array_filter($data, function($item) {
-    return (strtotime($item['time']) >= strtotime('12:00:00') && strtotime($item['time']) < strtotime('18:00:00'));
-  });
+  // $afternoonData = array_filter($data, function($item) {
+  //   return (strtotime($item['time']) >= strtotime('12:00:00') && strtotime($item['time']) < strtotime('18:00:00'));
+  // });
   
   $eveningData = array_filter($data, function($item) {
     return (strtotime($item['time']) >= strtotime('18:00:00') && strtotime($item['time']) <= strtotime('23:59:59'));
   });
 
-  $nightData = array_filter($data, function($item) {
-    return (strtotime($item['time']) >= strtotime('00:00:00') && strtotime($item['time']) < strtotime('06:00:00'));
-  });
+  // $nightData = array_filter($data, function($item) {
+  //   return (strtotime($item['time']) >= strtotime('00:00:00') && strtotime($item['time']) < strtotime('06:00:00'));
+  // });
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,85 +54,85 @@ if (!$conn)
   <title>Document</title>
 </head>
 <body>
-<div>
+<!-- <div>
   <h1>Morning Data</h1>
   <canvas id="morningChart"></canvas>
-</div>
-<div>
+</div> -->
+<!-- <div>
   <h1>AfterNoon Data</h1>
   <canvas id="afternoonChart"></canvas>
-</div> 
+</div>  -->
 <div>
   <h1>Evening Data</h1>
   <canvas id="eveningChart"></canvas>
 </div> 
-<div>
+<!-- <div>
   <h1>Night Data</h1>
   <canvas id="nightChart"></canvas>
-</div> 
+</div>  -->
 
 <script>
 
   //Morning Data
- var morningData = <?php echo json_encode($morningData); ?>;
-  // console.log(morningData);
-  var morningTemp = [];
-  var morningHumidity = [];
-  var morningTime = [];
-  morningDataKey  = (Object.keys(morningData));
-  var morningDate = morningData[morningDataKey[0]].date;
-  // console.log(morningDataKey);
-  var morningScatterTypeTempData = []
-  var morningScatterTypeHumidityData = []
-  for(let i = 0; i < morningDataKey.length; i++) {
+//  var morningData = <?php echo json_encode($morningData); ?>;
+//   // console.log(morningData);
+//   var morningTemp = [];
+//   var morningHumidity = [];
+//   var morningTime = [];
+//   morningDataKey  = (Object.keys(morningData));
+//   var morningDate = morningData[morningDataKey[0]].date;
+//   // console.log(morningDataKey);
+//   var morningScatterTypeTempData = []
+//   var morningScatterTypeHumidityData = []
+//   for(let i = 0; i < morningDataKey.length; i++) {
 
-    // console.log(morningData[morningDataKey[i]]);
-    morningTemp.push(morningData[morningDataKey[i]].temperature);
-    morningHumidity.push(morningData[morningDataKey[i]].humidity);
-    morningTime.push(morningData[morningDataKey[i]].time);
-  }
+//     // console.log(morningData[morningDataKey[i]]);
+//     morningTemp.push(morningData[morningDataKey[i]].temperature);
+//     morningHumidity.push(morningData[morningDataKey[i]].humidity);
+//     morningTime.push(morningData[morningDataKey[i]].time);
+//   }
 
-  for(let i = 0; i < morningDataKey.length; i++) {
-    morningScatterTypeTempData.push({x: i, y: morningTemp[i] })
-    morningScatterTypeHumidityData.push({x: i, y: morningHumidity[i]})
-  }
-  // console.log(morningTemp);
-  // console.log(morningHumidity);
+//   for(let i = 0; i < morningDataKey.length; i++) {
+//     morningScatterTypeTempData.push({x: i, y: morningTemp[i] })
+//     morningScatterTypeHumidityData.push({x: i, y: morningHumidity[i]})
+//   }
+//   // console.log(morningTemp);
+//   // console.log(morningHumidity);
 
-  const mlabels = morningTime;
-  const morning_Data = {
-    labels: mlabels,
-    datasets: [{
-      label: 'Temprature',
-      data: morningScatterTypeTempData,
-    },{
-      label: 'Humidity',
-      data: morningScatterTypeHumidityData,
-    }]
-  };
+//   const mlabels = morningTime;
+//   const morning_Data = {
+//     labels: mlabels,
+//     datasets: [{
+//       label: 'Temprature',
+//       data: morningScatterTypeTempData,
+//     },{
+//       label: 'Humidity',
+//       data: morningScatterTypeHumidityData,
+//     }]
+//   };
 
-    const morningConfig = {
-      type: 'line',
-      data: morning_Data,
-      options: {
-        plugins: {
-        title: {
-          text:morningDate,
-          display: true
-        }
-      },
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      },
-    };
+//     const morningConfig = {
+//       type: 'line',
+//       data: morning_Data,
+//       options: {
+//         plugins: {
+//         title: {
+//           text:morningDate,
+//           display: true
+//         }
+//       },
+//         scales: {
+//           y: {
+//             beginAtZero: true
+//           }
+//         }
+//       },
+//     };
 
-    var myChart = new Chart(
-      document.getElementById('morningChart'),
-      morningConfig
-    );
+//     var myChart = new Chart(
+//       document.getElementById('morningChart'),
+//       morningConfig
+//     );
 
 //Evening Data
 
@@ -199,125 +199,125 @@ if (!$conn)
 
 //AfterNoon Data
 
-  var afternoonData = <?php echo json_encode($afternoonData); ?>;
-  // console.log(afternoonData);
-  var atemp = [];
-  var ahumidity = [];
-  var atime = [];
+  // var afternoonData = <?php echo json_encode($afternoonData); ?>;
+  // // console.log(afternoonData);
+  // var atemp = [];
+  // var ahumidity = [];
+  // var atime = [];
 
-  const afternoonDataKey = Object.keys(afternoonData);
-  const aDate = afternoonData[afternoonDataKey[0]].date;
+  // const afternoonDataKey = Object.keys(afternoonData);
+  // const aDate = afternoonData[afternoonDataKey[0]].date;
 
-  var afterNoonScatterTypeTempData = []
-  var afterNoonScatterTypeHumidityData = []
-  for(let i = 0; i < afternoonDataKey.length; i++) {
-    atemp.push(afternoonData[afternoonDataKey[i]].temperature);
-    ahumidity.push(afternoonData[afternoonDataKey[i]].humidity);
-    atime.push(afternoonData[afternoonDataKey[i]].time);
+  // var afterNoonScatterTypeTempData = []
+  // var afterNoonScatterTypeHumidityData = []
+  // for(let i = 0; i < afternoonDataKey.length; i++) {
+  //   atemp.push(afternoonData[afternoonDataKey[i]].temperature);
+  //   ahumidity.push(afternoonData[afternoonDataKey[i]].humidity);
+  //   atime.push(afternoonData[afternoonDataKey[i]].time);
 
-  }
+  // }
 
-  for(let i = 0; i < afternoonDataKey.length; i++) {
-    afterNoonScatterTypeTempData.push({x: i, y: atemp[i] })
-    afterNoonScatterTypeHumidityData.push({x: i, y: ahumidity[i]})
-  }
+  // for(let i = 0; i < afternoonDataKey.length; i++) {
+  //   afterNoonScatterTypeTempData.push({x: i, y: atemp[i] })
+  //   afterNoonScatterTypeHumidityData.push({x: i, y: ahumidity[i]})
+  // }
 
-  const alabels = atime;
-  const afternoon_data = {
-    labels: alabels,
-    datasets: [{
-      label: 'Temprature',
-      data: afterNoonScatterTypeTempData,
+  // const alabels = atime;
+  // const afternoon_data = {
+  //   labels: alabels,
+  //   datasets: [{
+  //     label: 'Temprature',
+  //     data: afterNoonScatterTypeTempData,
       
-    },{
-      label: 'Humidity',
-      data: afterNoonScatterTypeHumidityData,
-    }]
-  };
+  //   },{
+  //     label: 'Humidity',
+  //     data: afterNoonScatterTypeHumidityData,
+  //   }]
+  // };
 
-    const afternoonConfig = {
-      type: 'line',
-      data: afternoon_data,
-      options: {
-        plugins: {
-        title: {
-          text:aDate,
-          display: true
-        }
-      },
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      },
-    };
+  //   const afternoonConfig = {
+  //     type: 'line',
+  //     data: afternoon_data,
+  //     options: {
+  //       plugins: {
+  //       title: {
+  //         text:aDate,
+  //         display: true
+  //       }
+  //     },
+  //       scales: {
+  //         y: {
+  //           beginAtZero: true
+  //         }
+  //       }
+  //     },
+  //   };
 
-    var myChart = new Chart(
-      document.getElementById('afternoonChart'),
-      afternoonConfig
-    );
+  //   var myChart = new Chart(
+  //     document.getElementById('afternoonChart'),
+  //     afternoonConfig
+  //   );
 
 
 
   // Night Data
-  var nightData = <?php echo json_encode($nightData); ?>;
-  // console.log(nightData);
-  var ntemp = [];
-  var nhumidity = [];
-  var ntime = [];
+  // var nightData = <?php echo json_encode($nightData); ?>;
+  // // console.log(nightData);
+  // var ntemp = [];
+  // var nhumidity = [];
+  // var ntime = [];
 
-  const nightDataKey = Object.keys(nightData);
-  const nDate = nightData[nightDataKey[0]].date;
-  var nightScatterTypeTempData = []
-  var nightScatterTypeHumidityData = []
-  for(let i = 0; i < nightDataKey.length; i++) {
-    ntemp.push(nightData[nightDataKey[i]].temperature);
-    ntime.push(nightData[nightDataKey[i]].time);
-    nhumidity.push(nightData[nightDataKey[i]].humidity);
+  // const nightDataKey = Object.keys(nightData);
+  // const nDate = nightData[nightDataKey[0]].date;
+  // var nightScatterTypeTempData = []
+  // var nightScatterTypeHumidityData = []
+  // for(let i = 0; i < nightDataKey.length; i++) {
+  //   ntemp.push(nightData[nightDataKey[i]].temperature);
+  //   ntime.push(nightData[nightDataKey[i]].time);
+  //   nhumidity.push(nightData[nightDataKey[i]].humidity);
 
-  }
+  // }
 
-  for(let i = 0; i < nightDataKey.length; i++) {
-    nightScatterTypeTempData.push({x: i, y: ntemp[i] })
-    nightScatterTypeHumidityData.push({x: i, y: nhumidity[i]})
-  }
+  // for(let i = 0; i < nightDataKey.length; i++) {
+  //   nightScatterTypeTempData.push({x: i, y: ntemp[i] })
+  //   nightScatterTypeHumidityData.push({x: i, y: nhumidity[i]})
+  // }
 
-  const nlabels = ntime;
-  const night_data = {
-    labels: nlabels,
-    datasets: [{
-      label: 'Temprature',
-      data: nightScatterTypeTempData,
+  // const nlabels = ntime;
+  // const night_data = {
+  //   labels: nlabels,
+  //   datasets: [{
+  //     label: 'Temprature',
+  //     data: nightScatterTypeTempData,
       
-    },{
-      label: 'Humidity',
-      data: nightScatterTypeHumidityData,
-    }]
-  };
+  //   },{
+  //     label: 'Humidity',
+  //     data: nightScatterTypeHumidityData,
+  //   }]
+  // };
 
-    const nightConfig = {
-      type: 'line',
-      data: night_data,
-      options: {
-        plugins: {
-        title: {
-          text:nDate,
-          display: true
-        }
-      },
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      },
-    };
+  //   const nightConfig = {
+  //     type: 'line',
+  //     data: night_data,
+  //     options: {
+  //       plugins: {
+  //       title: {
+  //         text:nDate,
+  //         display: true
+  //       }
+  //     },
+  //       scales: {
+  //         y: {
+  //           beginAtZero: true
+  //         }
+  //       }
+  //     },
+  //   };
 
-    var myChart = new Chart(
-      document.getElementById('nightChart'),
-      nightConfig
-    );
+  //   var myChart = new Chart(
+  //     document.getElementById('nightChart'),
+  //     nightConfig
+  //   );
 </script> 
 </body>
 </html>
