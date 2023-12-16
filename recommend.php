@@ -3,7 +3,7 @@
 $hostname = "localhost" ;
 $username  = "root" ;
 $password  = "" ;
-$database   = "data-Copy" ;
+$database   = "data" ;
 $conn = mysqli_connect($hostname, $username, $password, $database);
 
 if (!$conn) 
@@ -37,11 +37,14 @@ if(mysqli_num_rows($result) > 0)
     $thresholdTemperature = 35;
     $fanStatus =($temperature >= $thresholdTemperature) ? true : false;
     //Display fan status message
-    $relatedRecomendation = "";
-    if ($fanStatus){
-        $relatedRecomendation =  "Cooling fan needs to be ON";
-    } else{
-        $relatedRecomendation = "Cooling fan needs to be OFF";
+    //$relatedRecomendation = "";
+    if ($fanStatus)
+    {
+       $CoolingFan =  "Cooling fan needs to be ON";}
+       //echo "Cooling fan needs to be ON";}
+    else{
+        $CoolingFan = "Cooling fan needs to be OFF";
+       // echo "Cooling fan needs to be OFF";
     }
     echo "<br>" ;
     echo"<br>";
@@ -113,29 +116,29 @@ html {
 <div class=\"content\">
 <div class=\"card-grid\">
 
-    <div class=\"card\">
+   <!-- <div class=\"card\">
         <p class=\"card-title\"><i class=\"fas fa-thermometer-threequarters\" style=\"color:#059e8a;\"></i>Maximum Temperature</p>
         <p class=\"reading\"><span id=\"temperature\"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$maxTemp." *C</p>
         </div>
         <div class=\"card\">
         <p class=\"card-title\"><i class=\"fas fa-thermometer-threequarters\" style=\"color:#059e8a;\"></i>Minimum Temperature</p>
         <p class=\"reading\"><span id=\"temperature\"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$minTemp." *C</p>
-        </div>
+        </div>-->
         <div class=\"card\">
-            <p class=\"card-title\"><i class=\"fas fa-thermometer-threequarters\" style=\"color:#059e8a;\"></i>Releted recommendation</p>
-            <p class=\"reading\"><span id=\"temperature\"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$relatedRecomendation." </p>
+            <p class=\"card-title\"><i class=\"fas fa-thermometer-threequarters\" style=\"color:#059e8a;\"></i>Cooling Fan</p>
+            <p class=\"reading\"><span id=\"temperature\"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$CoolingFan." </p>
         </div>
-        <div class=\"card\">
+        <!--<div class=\"card\">
             <p class=\"card-title\"> Maximum Humidity</p>
             <p class=\"reading\"><span id=\"humidity\"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$maxhumidity." %</p>
         </div>
         <div class=\"card\">
             <p class=\"card-title\"> Minimum Humidity</p>
             <p class=\"reading\"><span id=\"humidity\"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$minhumidity." %</p> 
-        </div>
+        </div>-->
         <div class=\"card\">
-            <p class=\"card-title\"><i class=\"fas fa-thermometer-threequarters\" style=\"color:#059e8a;\"></i>Dehumidifier</p>
-            <p class=\"reading\"><span id=\"temperature\"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$dehumidifierStatusString." </p>
+            <p class=\"card-title\"><i class=\"humidity\" style=\"color:#059e8a;\"></i>Dehumidifier</p>
+            <p class=\"reading\"><span id=\"humidity\"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ".$dehumidifierStatusString." </p>
         </div>
 </body>
 </html> " ;

@@ -1,4 +1,5 @@
 <?php
+
 function insertDataFromFile($filePath, $conn)
 {
     $csv = array();
@@ -13,8 +14,13 @@ function insertDataFromFile($filePath, $conn)
         $time = $csv[$i][2];
         $temp = $csv[$i][3];
         $humid = $csv[$i][4];
+        $soil_moisture = $csv[$i][5];
+        $pH = $csv[$i][6];
+        $N = $csv[$i][7];
+        $K = $csv[$i][8];
+        $P = $csv[$i][9];
 
-        $insertSql = "INSERT INTO `data-copy` (`date`, `time`, `temperature`, `humidity`) VALUES ('$date', '$time', $temp, $humid);";
+        $insertSql = "INSERT INTO `data-copy` (`date`, `time`, `temperature`, `humidity`, `soil_moisture`, `pH`, `N`, `K`, `P`) VALUES ('$date', '$time', $temp, $humid, $soil_moisture, $pH, $N, $K, $P);";
         if (!mysqli_query($conn, $insertSql)) {
             echo "Getting Error in inserting Data";
         }
@@ -26,7 +32,7 @@ function insertDataFromFile($filePath, $conn)
 $hostname = "localhost";
 $username  = "root";
 $password  = "";
-$database   = "data-Copy";
+$database   = "data";
 $conn = mysqli_connect($hostname, $username, $password, $database);
 
 if (!$conn) {
@@ -42,9 +48,15 @@ if (isset($_POST['manualInsert'])) {
     $manualTime = $_POST['manualTime'];
     $manualTemp = $_POST['manualTemp'];
     $manualHumid = $_POST['manualHumid'];
+    $manualSoilMoisture = $_POST['manualSoilMoisture'];
+    $manualpH = $_POST['manualpH'];
+    $manualN = $_POST['manualN'];
+    $manualK = $_POST['manualK'];
+    $manualP = $_POST['manualP'];
 
     // Insert data into the database
-    $insertSql = "INSERT INTO `data-copy` (`date`, `time`, `temperature`, `humidity`) VALUES ('$manualDate', '$manualTime', $manualTemp, $manualHumid);";
+    $insertSql = "INSERT INTO `data-copy` (`date`, `time`, `temperature`, `humidity`, `soil_moisture`, `pH`, `N`, `K`, `P`, ) VALUES ('$date', '$time', $temp, $humid, $soil_moisture, $pH, $N, $K, $P);";
+        
     if (!mysqli_query($conn, $insertSql)) {
         echo "Error in inserting manual data: " . mysqli_error($conn);
     } else {
@@ -75,6 +87,21 @@ if (isset($_POST['manualInsert'])) {
 
         <label for="manualHumid">Humidity:</label>
         <input type="number" name="manualHumid" id="manualHumid" required>
+
+        <label for="manualDate">Soil Moisture:</label>
+        <input type="text" name="manualSoilMoisture" id="manualSoilMoisture" required>
+
+        <label for="manualTime">pH:</label>
+        <input type="text" name="manualpH" id="manualpH" required>
+
+        <label for="manualTemp">N:</label>
+        <input type="number" name="manualN" id="manualN" required>
+
+        <label for="manualHumid">K:</label>
+        <input type="number" name="manualK" id="manualK" required>
+
+        <label for="manualDate">P:</label>
+        <input type="text" name="manualP" id="manualP" required>
 
         <input type="submit" name="manualInsert" value="Insert Manual Data">
     </form>

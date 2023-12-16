@@ -2,16 +2,16 @@
 $hostname = "localhost" ;
 $username  = "root" ;
 $password  = "" ;
-$database   = "data-Copy" ;
+$database   = "data" ;
 $conn = mysqli_connect($hostname, $username, $password, $database);
 if (!$conn) 
 { 
 	die("Connection failed: " . mysqli_connect_error());
 } 
 
-  $sql = "SELECT `temperature`, `humidity`, `date`, `time` FROM `data-copy`";
+  $sql = "SELECT * FROM `data-copy`";
   $result = mysqli_query($conn, $sql);
-  
+  // print_r($result) ;
   if ($result) {
     $data = array();
     while ($row = mysqli_fetch_assoc($result)) {
@@ -31,11 +31,10 @@ if (!$conn)
       return (strtotime($item['time']) >= strtotime('06:00:00') && strtotime($item['time']) < strtotime('12:00:00'));
   });
   
-  
   $afternoonData = array_filter($data, function($item) {
     return (strtotime($item['time']) >= strtotime('12:00:00') && strtotime($item['time']) < strtotime('18:00:00'));
   });
-  
+
   $eveningData = array_filter($data, function($item) {
     return (strtotime($item['time']) >= strtotime('18:00:00') && strtotime($item['time']) <= strtotime('23:59:59'));
   });
@@ -54,7 +53,7 @@ if (!$conn)
   <title>Document</title>
 </head>
 <body>
-<div>
+ <div>
   <h1>Morning Data</h1>
   <canvas id="morningChart"></canvas>
 </div>
@@ -66,10 +65,10 @@ if (!$conn)
   <h1>Evening Data</h1>
   <canvas id="eveningChart"></canvas>
 </div> 
-<div>
+ <div>
   <h1>Night Data</h1>
   <canvas id="nightChart"></canvas>
-</div> 
+</div>  
 
 <script>
 
@@ -79,25 +78,32 @@ if (!$conn)
   var morningTemp = [];
   var morningHumidity = [];
   var morningTime = [];
+  var morningsoil_moisture = [];
+  var morningpH = [];
+  var morningN = [];
+  var morningK = [];
+  var morningP = [];
   morningDataKey  = (Object.keys(morningData));
   var morningDate = morningData[morningDataKey[0]].date;
-  // console.log(morningDataKey);
   var morningScatterTypeTempData = []
   var morningScatterTypeHumidityData = []
   for(let i = 0; i < morningDataKey.length; i++) {
-
-    // console.log(morningData[morningDataKey[i]]);
     morningTemp.push(morningData[morningDataKey[i]].temperature);
     morningHumidity.push(morningData[morningDataKey[i]].humidity);
     morningTime.push(morningData[morningDataKey[i]].time);
+    morningsoil_moisture.push(morningData[morningDataKey[i]].soil_moisture);
+    morningpH.push(morningData[morningDataKey[i]].pH);
+    morningN.push(morningData[morningDataKey[i]].N);
+    morningK.push(morningData[morningDataKey[i]].K);
+    morningP.push(morningData[morningDataKey[i]].P);
+
+
   }
 
   for(let i = 0; i < morningDataKey.length; i++) {
     morningScatterTypeTempData.push({x: i, y: morningTemp[i] })
     morningScatterTypeHumidityData.push({x: i, y: morningHumidity[i]})
   }
-  // console.log(morningTemp);
-  // console.log(morningHumidity);
 
   const mlabels = morningTime;
   const morning_Data = {
@@ -105,11 +111,32 @@ if (!$conn)
     datasets: [{
       label: 'Temprature',
       data: morningScatterTypeTempData,
-    },{
+    },
+    {
       label: 'Humidity',
       data: morningScatterTypeHumidityData,
-    }]
-  };
+    },
+    {
+      label: 'Soil Moisture',
+      data: morningsoil_moisture,
+    },
+    {
+      label: 'pH',
+      data: morningpH,
+    },
+    {
+      label: 'N',
+      data: morningN,
+    },
+    {
+      label: 'K',
+      data: morningK,
+    },
+    {
+      label: 'P',
+      data: morningP,
+    },
+  ]};
 
     const morningConfig = {
       type: 'line',
@@ -134,14 +161,19 @@ if (!$conn)
       morningConfig
     );
 
-//Evening Data
+//Evening Data//
 
   var eveningData = <?php echo json_encode($eveningData); ?>;
   // console.log(eveningData);
   var temp = [];
   var humidity = [];
   var time = [];
-  var date = eveningData.length > 0 ? eveningData[0].date : null;
+  var soil_moisture = [];
+  var pH = [];
+  var N = [];
+  var K = [];
+  var P = [];
+  var date = eveningData[0].date;
   var eveningScatterTypeTempData = []
   var eveningScatterTypeHumidityData = []
   eveningDataKey = Object.keys(eveningData);
@@ -149,6 +181,13 @@ if (!$conn)
     temp.push(eveningData[eveningDataKey[i]].temperature);
     humidity.push(eveningData[eveningDataKey[i]].humidity);
     time.push(eveningData[eveningDataKey[i]].time);
+    soil_moisture.push(eveningData[eveningDataKey[i]].soil_moisture);
+    pH.push(eveningData[eveningDataKey[i]].pH);
+    N.push(eveningData[eveningDataKey[i]].N);
+    K.push(eveningData[eveningDataKey[i]].K);
+    P.push(eveningData[eveningDataKey[i]].P);
+
+
   }
 
   for(let i = 0; i < eveningDataKey.length; i++) {
@@ -168,6 +207,26 @@ if (!$conn)
     {
       label: 'Humidity',
       data: eveningScatterTypeHumidityData,
+    },
+    {
+      label: 'soil_moisture',
+      data: soil_moisture
+    },
+    {
+      label: 'pH',
+      data: pH
+    },
+    {
+      label: 'N',
+      data: N
+    },
+    {
+      label: 'K',
+      data: K
+    },
+    {
+      label: 'P',
+      data: P
     }
   ]
   };
@@ -204,6 +263,11 @@ if (!$conn)
   var atemp = [];
   var ahumidity = [];
   var atime = [];
+  var asoil_moisture = [];
+  var apH = [];
+  var aN = [];
+  var aK = [];
+  var aP = [];
 
   const afternoonDataKey = Object.keys(afternoonData);
   const aDate = afternoonData[afternoonDataKey[0]].date;
@@ -214,6 +278,11 @@ if (!$conn)
     atemp.push(afternoonData[afternoonDataKey[i]].temperature);
     ahumidity.push(afternoonData[afternoonDataKey[i]].humidity);
     atime.push(afternoonData[afternoonDataKey[i]].time);
+    asoil_moisture.push(afternoonData[afternoonDataKey[i]].soil_moisture);
+    apH.push(afternoonData[afternoonDataKey[i]].pH);
+    aN.push(afternoonData[afternoonDataKey[i]].N);
+    aK.push(afternoonData[afternoonDataKey[i]].K);
+    aP.push(afternoonData[afternoonDataKey[i]].P);
 
   }
 
@@ -229,11 +298,32 @@ if (!$conn)
       label: 'Temprature',
       data: afterNoonScatterTypeTempData,
       
-    },{
+    },
+    {
       label: 'Humidity',
       data: afterNoonScatterTypeHumidityData,
-    }]
-  };
+    },
+    {
+      label: 'Soil Moisture',
+      data: asoil_moisture,
+    },
+    {
+      label: 'pH',
+      data: apH,
+    },
+    {
+      label: 'N',
+      data: aN,
+    },
+    {
+      label: 'K',
+      data: aK,
+    },
+    {
+      label: 'P',
+      data: aP,
+    },
+  ]};
 
     const afternoonConfig = {
       type: 'line',
@@ -266,6 +356,11 @@ if (!$conn)
   var ntemp = [];
   var nhumidity = [];
   var ntime = [];
+  var nsoil_moisture = [];
+  var npH = [];
+  var nN = [];
+  var nK = [];
+  var nP = [];
 
   const nightDataKey = Object.keys(nightData);
   const nDate = nightData[nightDataKey[0]].date;
@@ -275,6 +370,11 @@ if (!$conn)
     ntemp.push(nightData[nightDataKey[i]].temperature);
     ntime.push(nightData[nightDataKey[i]].time);
     nhumidity.push(nightData[nightDataKey[i]].humidity);
+    nsoil_moisture.push(nightData[nightDataKey[i]].soil_moisture);
+    npH.push(nightData[nightDataKey[i]].pH);
+    nN.push(nightData[nightDataKey[i]].N);
+    nK.push(nightData[nightDataKey[i]].K);
+    nP.push(nightData[nightDataKey[i]].P);
 
   }
 
@@ -290,11 +390,32 @@ if (!$conn)
       label: 'Temprature',
       data: nightScatterTypeTempData,
       
-    },{
+    },
+    {
       label: 'Humidity',
       data: nightScatterTypeHumidityData,
-    }]
-  };
+    },
+    {
+      label: 'Soil Moisture',
+      data: nsoil_moisture,
+    },
+    {
+      label: 'pH',
+      data: npH,
+    },
+    {
+      label: 'N',
+      data: nN,
+    },
+    {
+      label: 'K',
+      data: nK,
+    },
+    {
+      label: 'P',
+      data: nP,
+    },
+  ]};
 
     const nightConfig = {
       type: 'line',
