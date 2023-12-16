@@ -140,7 +140,7 @@ $sql = "SELECT `ID`, `date`, `time`, `temperature`, `humidity`, `soil_moisture`,
            //fire query
            $result = mysqli_query($conn, $sql);
            if(mysqli_num_rows($result) > 0)
-       {
+        {
            while($row = mysqli_fetch_assoc($result)){
                $phosphorus= $row['P'];}
            } else {

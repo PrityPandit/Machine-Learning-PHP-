@@ -1,4 +1,5 @@
 <?php
+
 function insertDataFromFile($filePath, $conn)
 {
     $csv = array();
@@ -19,7 +20,7 @@ function insertDataFromFile($filePath, $conn)
         $K = $csv[$i][8];
         $P = $csv[$i][9];
 
-        $insertSql = "INSERT INTO `data-copy` (`date`, `time`, `temperature`, `humidity`, `soil_moisture`, `pH`, `N`, `K`, `P`, ) VALUES ('$date', '$time', $temp, $humid, $soil_moisture, $pH, $N, $K, $P);";
+        $insertSql = "INSERT INTO `data-copy` (`date`, `time`, `temperature`, `humidity`, `soil_moisture`, `pH`, `N`, `K`, `P`) VALUES ('$date', '$time', $temp, $humid, $soil_moisture, $pH, $N, $K, $P);";
         if (!mysqli_query($conn, $insertSql)) {
             echo "Getting Error in inserting Data";
         }
